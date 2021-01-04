@@ -1,8 +1,12 @@
 <resources>
+    <string name="facebook_app_id" translatable="false">751859975469440</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb751859975469440</string>
     <string name="app_name">Ecommerce</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="signin">Sign In</string>
     <string name="login_with_facebook">Sign In with Facebook</string>
     <string name="login_with_google">Sign In with Google</string>
+    <string name="error_this_field_required">This field is required</string>
+    <string name="password">Password</string>
 </resources>

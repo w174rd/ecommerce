@@ -3,6 +3,10 @@ package com.najib.ecommerce.view.activity.core
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.facebook.AccessToken
+import com.facebook.GraphRequest
+import com.facebook.HttpMethod
+import com.facebook.login.LoginManager
 
 open class CoreActivity : AppCompatActivity() {
 
@@ -28,5 +32,23 @@ open class CoreActivity : AppCompatActivity() {
                 onBackPressed()
             }
         }
+    }
+
+    /** ============== FACEBOOK =============== */
+
+    fun signInFacebook() {
+        LoginManager.getInstance().logInWithReadPermissions(this, mutableListOf("email", "public_profile"))
+    }
+
+    fun signOutFacebook() {
+        if (AccessToken.getCurrentAccessToken() == null) {
+            return  // already logged out
+        }
+
+        GraphRequest(AccessToken.getCurrentAccessToken(),
+            "/me/permissions/",
+            null,
+            HttpMethod.DELETE,
+            GraphRequest.Callback { LoginManager.getInstance().logOut() }).executeAsync()
     }
 }
