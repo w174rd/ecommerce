@@ -42,7 +42,7 @@ class SplashScreenActivity : CoreActivity() {
         if (mSplashScreenRunnable == null) {
             mSplashScreenRunnable = Runnable {
                 if (!isFinishing) {
-//                    MainActivity.launchIntent(this@SplashScreenActivity)
+                    SignInActivity.launchIntent(this@SplashScreenActivity)
                     finish()
                 }
             }

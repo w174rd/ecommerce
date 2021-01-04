@@ -18,6 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.activity.SignInActivity"
+            android:label="@string/login"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>
