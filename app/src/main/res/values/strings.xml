@@ -1,6 +1,7 @@
 <resources>
     <string name="facebook_app_id" translatable="false">751859975469440</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb751859975469440</string>
+    <string name="google_web_client_id" translatable="false">637344595331-9l7uhbim04d346j8sgt0ifbg5mcfc9ep.apps.googleusercontent.com</string>
     <string name="app_name">Ecommerce</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
