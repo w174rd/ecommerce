@@ -14,4 +14,7 @@
     <string name="feed">Feed</string>
     <string name="cart">Cart</string>
     <string name="profile">Profile</string>
+    <string name="error_unknown">error unknown</string>
+    <string name="error_conn_generic">Connection problem</string>
+    <string name="error_conn_time_out">Connection Timed Out</string>
 </resources>
