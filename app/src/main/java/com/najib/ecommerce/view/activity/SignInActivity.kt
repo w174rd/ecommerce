@@ -3,35 +3,51 @@ package com.najib.ecommerce.view.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import com.facebook.*
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.najib.ecommerce.R
+import com.najib.ecommerce.api.util.OnResponse
 import com.najib.ecommerce.util.Functions
 import com.najib.ecommerce.util.ValidationHelper
 import com.najib.ecommerce.view.activity.core.CoreActivity
+import com.najib.ecommerce.viewmodel.AuthViewModel
 import kotlinx.android.synthetic.main.activity_signin.*
 
 class SignInActivity : CoreActivity() {
 
-    private val callbackManager = CallbackManager.Factory.create()
+    private var callbackManager = CallbackManager.Factory.create()
+
+    private val viewModel by lazy {
+        ViewModelProviders.of(this).get(AuthViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
 
+        initialViewModel()
         initView()
     }
 
+    private fun initialViewModel() {
+        viewModel.onResponse.observe(this, {
+            when (it.status) {
+                OnResponse.LOADING -> {
+                    Functions.toast(this, "Loading...")
+                }
+                OnResponse.SUCCESS -> {
+                    openDashboard()
+                }
+                OnResponse.ERROR -> {
+                    Functions.toast(this, it.error.toString())
+                }
+            }
+        })
+    }
+
     private fun initView() {
-        initialGoogleAccount()
-        initialFacebook()
+        viewModel.initialFacebook(callbackManager)
+        viewModel.initialGoogleAccount(this)
         onClick()
     }
 
@@ -43,11 +59,11 @@ class SignInActivity : CoreActivity() {
         }
 
         btn_login_facebook.setOnClickListener {
-            signInFacebook()
+            viewModel.signInFacebook(this)
         }
 
         btn_login_google.setOnClickListener {
-            signInGoogle()
+            viewModel.signInGoogle(this)
         }
     }
 
@@ -73,67 +89,20 @@ class SignInActivity : CoreActivity() {
         layout_password.isErrorEnabled = false
     }
 
-    /** ============ FACEBOOK ============= */
-    private fun initialFacebook() {
-        try {
-            LoginManager.getInstance()
-                .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-                    override fun onSuccess(loginResult: LoginResult) {
-//                    val accessToken = loginResult.accessToken
-                        openDashboard()
-                    }
-
-                    override fun onCancel() {
-
-                    }
-
-                    override fun onError(exception: FacebookException) {
-                        Toast.makeText(
-                            this@SignInActivity,
-                            exception.message.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                })
-        } catch (e: Exception) {
-            Functions.printStackTrace(e)
-        }
-    }
-
-    /** ============== GOOGLE =============== */
-
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-        try {
-            val account = completedTask.getResult(ApiException::class.java)
-            account?.let {
-                val idToken = it.idToken
-                val email = it.email
-                if (idToken != null && email != null) {
-                    openDashboard()
-                }
-                Log.d("GO-TKN", idToken.toString())
-            }
-        } catch (e: ApiException) {
-            Toast.makeText(this@SignInActivity, e.message, Toast.LENGTH_LONG).show()
-        }
-    }
-
     /** ================ Activity Result ============== */
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == GOOGLE_RC_SIGN_IN) {
-            /** GOOGLE */
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            if (task.isSuccessful) handleSignInResult(task)
-        } else {
-            /** FACEBOOK */
-            callbackManager.onActivityResult(requestCode, resultCode, data)
-        }
+        viewModel.onActivityResult(
+            requestCode = requestCode,
+            resultCode = resultCode,
+            data = data
+        )
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun openDashboard() {
-        clearAllSosmed()
+        viewModel.signOutFacebook()
+        viewModel.signOutGoogle()
         MainActivity.launchIntent(this@SignInActivity)
         finish()
     }

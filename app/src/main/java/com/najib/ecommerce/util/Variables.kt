@@ -6,6 +6,7 @@ import com.najib.ecommerce.model.home.ProductPromo
 object Variables {
 
     val apiUrl = "https://private-4639ce-ecommerce56.apiary-mock.com/"
+    val GOOGLE_RC_SIGN_IN = 1000
 
     object key {
         val PUT_EXTRA_KEY = "PUT_EXTRA_KEY"
