@@ -5,16 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.najib.ecommerce.R
-import com.najib.ecommerce.api.util.OnResponse
-import com.najib.ecommerce.util.Functions
 import com.najib.ecommerce.util.Variables
 import com.najib.ecommerce.view.activity.MainActivity
+import com.najib.ecommerce.view.activity.SearchActivity
+import com.najib.ecommerce.view.adapter.CategoryAdapter
+import com.najib.ecommerce.view.adapter.ProductAdapter
 import com.najib.ecommerce.viewmodel.HomeViewModel
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
+
+    private val adapterCategory = CategoryAdapter()
+    private val adapterProduct = ProductAdapter()
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(HomeViewModel::class.java)
@@ -30,31 +36,62 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initView()
+        initViewModel()
+        onClick()
     }
 
     private fun initView() {
-        viewModel.getData()
-        viewModel.onResponse.observe(this, Observer {
-            when (it.status) {
-                OnResponse.LOADING -> {
-                    Functions.toast(context, "loding...")
-                }
-                OnResponse.SUCCESS -> {
+        initRecyclerCategory()
+        initRecyclerProduct()
+    }
 
-                }
-                OnResponse.ERROR -> {
-                    Functions.toast(context, it.error.toString())
-                }
-            }
+    private fun initViewModel() {
+        viewModel.getData()
+        viewModel.onResponse.observe(this, {
+            adapterCategory.setState(it)
+            adapterProduct.setState(it)
         })
-        viewModel.liveData.observe(this, Observer { data ->
-            var result: String? = null
-            data.category?.forEach {
-                result = it.name
-            }
-            Functions.toast(context, result.toString())
+        viewModel.liveData.observe(this, { data ->
+            adapterCategory.clearDataList()
+            adapterCategory.setDataList(data.category)
+            adapterProduct.clearDataList()
+            adapterProduct.setDataList(data.productPromo)
         })
+    }
+
+    private fun onClick() {
+        btn_search.setOnClickListener {
+            SearchActivity.launchIntent(context)
+        }
+
+        btn_like.setOnClickListener {
+
+        }
+    }
+
+    private fun initRecyclerCategory() {
+        val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        recycler_category.layoutManager = layoutManager
+        adapterCategory.emptyText = resources.getString(R.string.empty)
+        recycler_category.adapter = adapterCategory
+
+        adapterCategory.setOnRetryListener {
+            viewModel.getData()
+        }
+    }
+
+    private fun initRecyclerProduct() {
+        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        recycler_product.isNestedScrollingEnabled = false
+        recycler_product.layoutManager = layoutManager
+        adapterProduct.emptyText = resources.getString(R.string.empty)
+        recycler_product.adapter = adapterProduct
+
+        adapterProduct.setOnRetryListener {
+            viewModel.getData()
+        }
     }
 
     fun pageState() {

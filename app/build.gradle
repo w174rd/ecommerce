@@ -41,6 +41,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.facebook.android:facebook-android-sdk:5.8.0'
@@ -63,4 +64,6 @@ dependencies {
     // Chuck
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    // Image Fresco
+    implementation 'com.facebook.fresco:fresco:2.3.0'
 }

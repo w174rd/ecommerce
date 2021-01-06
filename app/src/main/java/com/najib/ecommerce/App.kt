@@ -3,6 +3,7 @@ package com.najib.ecommerce
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.multidex.MultiDexApplication
+import com.facebook.drawee.backends.pipeline.Fresco
 
 class App : MultiDexApplication() {
 
@@ -10,6 +11,7 @@ class App : MultiDexApplication() {
         super.onCreate()
         context = this
 
+        Fresco.initialize(this)
     }
 
     companion object {
