@@ -37,7 +37,7 @@ open class CoreActivity : AppCompatActivity() {
             if (title != null) toolbarText?.text = title
             else toolbarText?.text = this.title
 
-            toolbarView.setNavigationIcon(android.R.drawable.arrow_down_float)
+            toolbarView.setNavigationIcon(R.drawable.ic_left_arrow)
             toolbarView.setNavigationOnClickListener {
                 onBackPressed()
             }
@@ -56,11 +56,12 @@ open class CoreActivity : AppCompatActivity() {
             return  // already logged out
         }
 
-        GraphRequest(AccessToken.getCurrentAccessToken(),
+        GraphRequest(
+            AccessToken.getCurrentAccessToken(),
             "/me/permissions/",
             null,
-            HttpMethod.DELETE,
-            GraphRequest.Callback { LoginManager.getInstance().logOut() }).executeAsync()
+            HttpMethod.DELETE
+        ) { LoginManager.getInstance().logOut() }.executeAsync()
     }
 
     /** ================ GOOGLE ================= */

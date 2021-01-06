@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.najib.ecommerce.R
+import com.najib.ecommerce.util.Functions
 import com.najib.ecommerce.util.ValidationHelper
 import com.najib.ecommerce.view.activity.core.CoreActivity
 import kotlinx.android.synthetic.main.activity_signin.*
@@ -23,15 +24,15 @@ class SignInActivity : CoreActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initialGoogleAccount()
+        initialFacebook()
         setContentView(R.layout.activity_signin)
 
         initView()
     }
 
     private fun initView() {
-        initialGoogleAccount()
         signOutGoogle()
-        initialFacebook()
         signOutFacebook()
         onClick()
     }
@@ -76,25 +77,29 @@ class SignInActivity : CoreActivity() {
 
     /** ============ FACEBOOK ============= */
     private fun initialFacebook() {
-        LoginManager.getInstance()
-            .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-                override fun onSuccess(loginResult: LoginResult) {
+        try {
+            LoginManager.getInstance()
+                .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(loginResult: LoginResult) {
 //                    val accessToken = loginResult.accessToken
-                    openDashboard()
-                }
+                        openDashboard()
+                    }
 
-                override fun onCancel() {
+                    override fun onCancel() {
 
-                }
+                    }
 
-                override fun onError(exception: FacebookException) {
-                    Toast.makeText(
-                        this@SignInActivity,
-                        exception.message.toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            })
+                    override fun onError(exception: FacebookException) {
+                        Toast.makeText(
+                            this@SignInActivity,
+                            exception.message.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                })
+        }catch (e: Exception){
+            Functions.printStackTrace(e)
+        }
     }
 
     /** ============== GOOGLE =============== */
