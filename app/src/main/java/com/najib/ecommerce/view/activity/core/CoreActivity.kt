@@ -32,11 +32,13 @@ open class CoreActivity : AppCompatActivity() {
         return statusToolbar
     }
 
-    fun toolbarBack(toolbar: Toolbar, title: TextView? = null) {
-        if (buildToolbar(toolbar)) {
-            title?.text = this.title
-            toolbar.setNavigationIcon(android.R.drawable.arrow_down_float)
-            toolbar.setNavigationOnClickListener {
+    fun toolbarBack(toolbarView: Toolbar, toolbarText: TextView? = null, title: String? = null) {
+        if (buildToolbar(toolbarView)) {
+            if (title != null) toolbarText?.text = title
+            else toolbarText?.text = this.title
+
+            toolbarView.setNavigationIcon(android.R.drawable.arrow_down_float)
+            toolbarView.setNavigationOnClickListener {
                 onBackPressed()
             }
         }

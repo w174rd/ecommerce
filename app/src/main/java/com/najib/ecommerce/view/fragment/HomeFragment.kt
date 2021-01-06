@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.najib.ecommerce.R
 import com.najib.ecommerce.util.Variables
 import com.najib.ecommerce.view.activity.MainActivity
+import com.najib.ecommerce.view.activity.ProductDetailActivity
 import com.najib.ecommerce.view.activity.SearchActivity
 import com.najib.ecommerce.view.adapter.CategoryAdapter
 import com.najib.ecommerce.view.adapter.ProductAdapter
@@ -91,6 +92,10 @@ class HomeFragment : Fragment() {
 
         adapterProduct.setOnRetryListener {
             viewModel.getData()
+        }
+
+        adapterProduct.onProductClick = { dataProduct ->
+            ProductDetailActivity.launchIntent(context = context, data = dataProduct)
         }
     }
 

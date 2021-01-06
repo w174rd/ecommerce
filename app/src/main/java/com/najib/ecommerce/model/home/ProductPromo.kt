@@ -1,5 +1,9 @@
 package com.najib.ecommerce.model.home
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class ProductPromo(
     val id: String? = null,
     val title: String? = null,
@@ -7,4 +11,4 @@ data class ProductPromo(
     val price: String? = null,
     val imageUrl: String? = null,
     val loved: Int? = null
-)
+) : Parcelable
