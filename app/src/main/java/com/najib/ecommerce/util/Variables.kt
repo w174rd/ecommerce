@@ -10,6 +10,7 @@ object Variables {
     object key {
         val PUT_EXTRA_KEY = "PUT_EXTRA_KEY"
         val HAWK_PURCHASE_HISTORY = "HAWK_PURCHASE_HISTORY"
+        val HAWK_PRODUCT = "HAWK_PRODUCT"
     }
 
     object bottomNavigation {

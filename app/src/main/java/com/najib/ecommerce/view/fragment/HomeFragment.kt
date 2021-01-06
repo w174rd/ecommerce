@@ -1,6 +1,7 @@
 package com.najib.ecommerce.view.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.najib.ecommerce.R
+import com.najib.ecommerce.util.GlobalHawk
 import com.najib.ecommerce.util.Variables
 import com.najib.ecommerce.view.activity.MainActivity
 import com.najib.ecommerce.view.activity.ProductDetailActivity
@@ -49,7 +51,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel.getData()
+        Handler().postDelayed({
+            viewModel.getData()
+        }, 200)
         viewModel.onResponse.observe(this, {
             adapterCategory.setState(it)
             adapterProduct.setState(it)
@@ -59,6 +63,8 @@ class HomeFragment : Fragment() {
             adapterCategory.setDataList(data.category)
             adapterProduct.clearDataList()
             adapterProduct.setDataList(data.productPromo)
+
+            GlobalHawk.setProduct(data.productPromo)
         })
     }
 

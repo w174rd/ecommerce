@@ -252,8 +252,10 @@ abstract class CoreRecyclerViewAdapter<DATA, VH : RecyclerView.ViewHolder> :
 
     inner class EmptyViewHolder<T, U>(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView() {
-            if (emptyText.isNullOrEmpty()) emptyText =
+            if ("" == emptyText) emptyText = ""
+            else if (emptyText.isNullOrEmpty()) emptyText =
                 App.context.resources.getString(R.string.empty)
+
             itemView.txt_empty.text = emptyText
         }
     }
