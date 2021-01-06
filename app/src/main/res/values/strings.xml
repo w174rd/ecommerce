@@ -25,4 +25,7 @@
     <string name="product_detail">Product Detail</string>
     <string name="buy">But</string>
     <string name="share">Share</string>
+    <string name="purchase_history">Purchase History</string>
+    <string name="product_has_been_added_to_the_basket">Product has been added to the basket</string>
+    <string name="product_has_been_removed">Product has been removed</string>
 </resources>

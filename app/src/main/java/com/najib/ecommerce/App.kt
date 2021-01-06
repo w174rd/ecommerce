@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.orhanobut.hawk.Hawk
 
 class App : MultiDexApplication() {
 
@@ -11,6 +12,7 @@ class App : MultiDexApplication() {
         super.onCreate()
         context = this
 
+        Hawk.init(context).build()
         Fresco.initialize(this)
     }
 

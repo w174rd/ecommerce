@@ -8,6 +8,7 @@ import android.view.MenuItem
 import com.najib.ecommerce.R
 import com.najib.ecommerce.model.home.ProductPromo
 import com.najib.ecommerce.util.Functions
+import com.najib.ecommerce.util.GlobalHawk
 import com.najib.ecommerce.util.Variables
 import com.najib.ecommerce.view.activity.core.CoreActivity
 import kotlinx.android.synthetic.main.activity_product_detail.*
@@ -21,6 +22,7 @@ class ProductDetailActivity : CoreActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_detail)
         initView()
+        onClick()
     }
 
     private fun initView() {
@@ -42,6 +44,25 @@ class ProductDetailActivity : CoreActivity() {
             }
             txt_description.text = it.description
             txt_price.text = it.price
+        }
+    }
+
+    private fun onClick() {
+        btn_buy.setOnClickListener {
+            try {
+                val puchaseData: MutableMap<String, ProductPromo> = GlobalHawk.getPurchaseHistory()
+                data?.let {
+                    puchaseData[it.id ?: "0"] = it
+                    GlobalHawk.setPurchaseHistory(puchaseData)
+                }
+            } catch (e: Exception) {
+                Functions.printStackTrace(e)
+            } finally {
+                Functions.toast(
+                    this,
+                    resources.getString(R.string.product_has_been_added_to_the_basket)
+                )
+            }
         }
     }
 

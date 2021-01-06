@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.najib.ecommerce.R
+import com.najib.ecommerce.util.Functions
 
 open class CoreActivity : AppCompatActivity() {
 
@@ -47,44 +48,67 @@ open class CoreActivity : AppCompatActivity() {
     /** ============== FACEBOOK =============== */
 
     fun signInFacebook() {
-        LoginManager.getInstance()
-            .logInWithReadPermissions(this, mutableListOf("email", "public_profile"))
+        try {
+            LoginManager.getInstance()
+                .logInWithReadPermissions(this, mutableListOf("email", "public_profile"))
+        } catch (e: Exception) {
+            Functions.printStackTrace(e)
+        }
     }
 
     fun signOutFacebook() {
-        if (AccessToken.getCurrentAccessToken() == null) {
-            return  // already logged out
-        }
+        try {
+            if (AccessToken.getCurrentAccessToken() == null) {
+                return  // already logged out
+            }
 
-        GraphRequest(
-            AccessToken.getCurrentAccessToken(),
-            "/me/permissions/",
-            null,
-            HttpMethod.DELETE
-        ) { LoginManager.getInstance().logOut() }.executeAsync()
+            GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/permissions/",
+                null,
+                HttpMethod.DELETE
+            ) { LoginManager.getInstance().logOut() }.executeAsync()
+        } catch (e: Exception) {
+            Functions.printStackTrace(e)
+        }
     }
 
     /** ================ GOOGLE ================= */
 
     fun initialGoogleAccount() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile()
-            .requestIdToken(resources.getString(R.string.google_web_client_id)).requestEmail()
-            .build()
+        try {
+            val gso =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile()
+                    .requestIdToken(resources.getString(R.string.google_web_client_id))
+                    .requestEmail()
+                    .build()
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if (account != null) {
-            Log.d("GO-TKN", account.idToken.toString())
+            val account = GoogleSignIn.getLastSignedInAccount(this)
+            if (account != null) {
+                Log.d("GO-TKN", account.idToken.toString())
+            }
+        } catch (e: Exception) {
+            Functions.printStackTrace(e)
         }
     }
 
     fun signInGoogle() {
-        val signInIntent = mGoogleSignInClient?.signInIntent
-        startActivityForResult(signInIntent, GOOGLE_RC_SIGN_IN)
+        try {
+            val signInIntent = mGoogleSignInClient?.signInIntent
+            startActivityForResult(signInIntent, GOOGLE_RC_SIGN_IN)
+        } catch (e: Exception) {
+            Functions.printStackTrace(e)
+        }
     }
 
     fun signOutGoogle() {
         mGoogleSignInClient?.signOut()?.addOnCompleteListener {}
+    }
+
+    fun clearAllSosmed() {
+        signOutGoogle()
+        signOutFacebook()
     }
 }

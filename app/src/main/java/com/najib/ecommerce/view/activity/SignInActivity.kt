@@ -24,16 +24,14 @@ class SignInActivity : CoreActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initialGoogleAccount()
-        initialFacebook()
         setContentView(R.layout.activity_signin)
 
         initView()
     }
 
     private fun initView() {
-        signOutGoogle()
-        signOutFacebook()
+        initialGoogleAccount()
+        initialFacebook()
         onClick()
     }
 
@@ -97,7 +95,7 @@ class SignInActivity : CoreActivity() {
                         ).show()
                     }
                 })
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Functions.printStackTrace(e)
         }
     }
@@ -135,6 +133,7 @@ class SignInActivity : CoreActivity() {
     }
 
     private fun openDashboard() {
+        clearAllSosmed()
         MainActivity.launchIntent(this@SignInActivity)
         finish()
     }

@@ -66,4 +66,5 @@ dependencies {
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     // Image Fresco
     implementation 'com.facebook.fresco:fresco:2.3.0'
+    implementation 'com.orhanobut:hawk:2.0.1'
 }

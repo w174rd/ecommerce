@@ -6,14 +6,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.najib.ecommerce.R
 import com.najib.ecommerce.model.home.ProductPromo
 import com.najib.ecommerce.util.OnClickProduct
-import kotlinx.android.synthetic.main.adapter_product.view.*
+import com.najib.ecommerce.util.OnRemoveProduct
+import kotlinx.android.synthetic.main.adapter_product.view.img_product
+import kotlinx.android.synthetic.main.adapter_product.view.txt_product
+import kotlinx.android.synthetic.main.adapter_product_min.view.*
 
-class ProductAdapter : CoreRecyclerViewAdapter<ProductPromo, ProductAdapter.ViewHolder>() {
+class ProductMinAdapter : CoreRecyclerViewAdapter<ProductPromo, ProductMinAdapter.ViewHolder>() {
 
     var onProductClick: OnClickProduct? = null
+    var onProductRemove: OnRemoveProduct? = null
 
     override fun onCreateDataViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(parent.inflate(R.layout.adapter_product))
+        return ViewHolder(parent.inflate(R.layout.adapter_product_min))
     }
 
     override fun onBindDataViewHolder(holder: ViewHolder, position: Int) {
@@ -27,14 +31,13 @@ class ProductAdapter : CoreRecyclerViewAdapter<ProductPromo, ProductAdapter.View
             itemView.apply {
                 img_product.setImageURI(data.imageUrl)
                 txt_product.text = data.title
-                if (data.loved == 1) {
-                    img_like.setImageResource(R.drawable.ic_like_full)
-                } else {
-                    img_like.setImageResource(R.drawable.ic_like)
-                }
-
+                txt_price.text = data.price
                 setOnClickListener {
                     onProductClick?.invoke(data)
+                }
+                setOnLongClickListener {
+                    onProductRemove?.invoke(data, adapterPosition)
+                    true
                 }
             }
         }

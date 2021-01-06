@@ -2,9 +2,9 @@ package com.najib.ecommerce.view.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.najib.ecommerce.R
@@ -67,8 +67,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_profile -> {
-                    loadFragment(getFragmentProfile())
-                    true
+//                    loadFragment(getFragmentProfile())
+                    PurchaseHistoryActivity.launchIntent(this)
+                    false
                 }
                 else -> {
                     loadFragment(getFragmentHome())
