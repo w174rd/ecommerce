@@ -10,5 +10,5 @@ data class ProductPromo(
     val description: String? = null,
     val price: String? = null,
     val imageUrl: String? = null,
-    val loved: Int? = null
+    var loved: Int? = null
 ) : Parcelable

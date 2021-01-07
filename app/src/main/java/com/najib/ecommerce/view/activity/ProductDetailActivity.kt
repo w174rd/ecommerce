@@ -64,6 +64,16 @@ class ProductDetailActivity : CoreActivity() {
                 )
             }
         }
+
+        btn_like.setOnClickListener {
+            if (data?.loved == 1) {
+                img_like.setImageResource(R.drawable.ic_like)
+                data?.loved = 0
+            } else {
+                img_like.setImageResource(R.drawable.ic_like_full)
+                data?.loved = 1
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
