@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- disabled -->
+    <item android:drawable="@drawable/background_rounded_disabled" android:state_enabled="false" />
+
+    <!-- enabled -->
+    <item android:drawable="@drawable/background_rounded_blue_fb_ripple" android:state_enabled="true" />
+
+</selector>
