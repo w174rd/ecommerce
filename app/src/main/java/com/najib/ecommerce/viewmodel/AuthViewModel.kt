@@ -22,17 +22,15 @@ import com.najib.ecommerce.util.Variables.GOOGLE_RC_SIGN_IN
 
 class AuthViewModel : ViewModel() {
 
+    private var callbackManager = CallbackManager.Factory.create()
     val onResponse = MutableLiveData<OnResponse<Any>>()
 
     private var mGoogleSignInClient: GoogleSignInClient? = null
-    private var callbackManager: CallbackManager? = null
 
     /** ============ FACEBOOK ============= */
 
-    fun initialFacebook(mCallbackManager: CallbackManager) {
+    fun initialFacebook() {
         try {
-            callbackManager = mCallbackManager
-
             LoginManager.getInstance()
                 .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {

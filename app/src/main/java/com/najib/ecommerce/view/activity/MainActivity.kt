@@ -63,13 +63,13 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_cart -> {
-//                    loadFragment(getFragmentCart())
-                    PurchaseHistoryActivity.launchIntent(this)
-                    false
+                    loadFragment(getFragmentCart())
+                    true
                 }
                 R.id.menu_profile -> {
-                    loadFragment(getFragmentProfile())
-                    true
+//                    loadFragment(getFragmentProfile())
+                    PurchaseHistoryActivity.launchIntent(this)
+                    false
                 }
                 else -> {
                     loadFragment(getFragmentHome())

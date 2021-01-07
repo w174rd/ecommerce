@@ -15,8 +15,6 @@ import kotlinx.android.synthetic.main.activity_signin.*
 
 class SignInActivity : CoreActivity() {
 
-    private var callbackManager = CallbackManager.Factory.create()
-
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(AuthViewModel::class.java)
     }
@@ -46,7 +44,7 @@ class SignInActivity : CoreActivity() {
     }
 
     private fun initView() {
-        viewModel.initialFacebook(callbackManager)
+        viewModel.initialFacebook()
         viewModel.initialGoogleAccount(this)
         onClick()
     }
