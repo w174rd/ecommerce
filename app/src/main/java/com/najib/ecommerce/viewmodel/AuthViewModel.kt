@@ -52,8 +52,9 @@ class AuthViewModel : ViewModel() {
 
     fun signInFacebook(context: Activity) {
         try {
+//            "user_friends"
             LoginManager.getInstance()
-                .logInWithReadPermissions(context, mutableListOf("email", "public_profile", "user_friends"))
+                .logInWithReadPermissions(context, mutableListOf("email", "public_profile"))
         } catch (e: Exception) {
             Functions.printStackTrace(e)
         }
