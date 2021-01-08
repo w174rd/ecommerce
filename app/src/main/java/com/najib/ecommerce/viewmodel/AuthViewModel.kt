@@ -133,7 +133,11 @@ class AuthViewModel : ViewModel() {
         if (requestCode == GOOGLE_RC_SIGN_IN) {
             /** GOOGLE */
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            if (task.isSuccessful) handleSignInResult(task)
+            if (task.isSuccessful) handleSignInResult(task) else onResponse.postValue(
+                OnResponse.error(
+                    task
+                )
+            )
         } else {
             /** FACEBOOK */
             callbackManager?.onActivityResult(requestCode, resultCode, data)
